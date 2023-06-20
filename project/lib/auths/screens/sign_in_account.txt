@@ -1,0 +1,229 @@
+import 'package:flutter/material.dart';
+
+import '../../elements/colors.dart';
+import '../../elements/logo.dart';
+import '../../utils/name_account.dart';
+import '../../utils/route/route_name.dart';
+
+class SignInWithAccount extends StatefulWidget {
+  const SignInWithAccount({super.key});
+
+  @override
+  State<SignInWithAccount> createState() => _SignInWithAccountState();
+}
+
+class _SignInWithAccountState extends State<SignInWithAccount> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _buildBody,
+    );
+  }
+
+  get _buildBody {
+    return SafeArea(
+        child: ListView(
+      physics: const NeverScrollableScrollPhysics(),
+      children: [
+        Stack(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 180,
+              color: AppColors.appBarColor,
+              child: Container(
+                margin: const EdgeInsets.only(top: 25, left: 15),
+                child: const Text(
+                  'Sing in',
+                  style: TextStyle(
+                      fontFamily: 'Poppins_Bold',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20,
+                      color: AppColors.iconColor),
+                ),
+              ),
+            ),
+            _blockBody(),
+          ],
+        ),
+      ],
+    ));
+  }
+
+  Widget _blockBody() {
+    return Container(
+      margin: const EdgeInsets.only(top: 80),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height / 1.2,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(35), topRight: Radius.circular(35)),
+        ),
+        child: Column(
+          children: [
+            Expanded(flex: 0, child: _logo()),
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    _buildButtonSignUpAdmin(),
+                    _buildButtonSignUpSale(),
+                    _buildButtonSignUpLogistic(),
+                    _buildButtonSignUpDriver(),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _logo() {
+    return Container(
+      alignment: Alignment.center,
+      margin: const EdgeInsets.symmetric(vertical: 150),
+      width: 132.48,
+      height: 67.3,
+      decoration: BoxDecoration(
+        image: DecorationImage(image: AssetImage(Logo.logo), fit: BoxFit.fill),
+      ),
+    );
+  }
+
+  Widget _buildButtonSignUpAdmin() {
+    return GestureDetector(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        height: 50,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6),
+          gradient: const LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [
+                Color.fromRGBO(67, 110, 220, 1),
+                Color.fromRGBO(44, 54, 145, 1),
+              ]),
+        ),
+        child: const Center(
+          child: Text(
+            NameAccount.admin,
+            style: TextStyle(
+                color: Color(0XFFFFFFFF),
+                fontWeight: FontWeight.w500,
+                fontSize: 20),
+          ),
+        ),
+      ),
+      onTap: () {
+        Navigator.pushNamed(context, RouteName.pageIndex);
+      },
+    );
+  }
+
+  Widget _buildButtonSignUpSale() {
+    return GestureDetector(
+      child: Container(
+        margin: const EdgeInsets.symmetric(
+          horizontal: 15,
+        ),
+        height: 50,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6),
+          gradient: const LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [
+                Color.fromRGBO(67, 110, 220, 1),
+                Color.fromRGBO(44, 54, 145, 1),
+              ]),
+        ),
+        child: const Center(
+          child: Text(
+            NameAccount.sale,
+            style: TextStyle(
+                color: Color(0XFFFFFFFF),
+                fontWeight: FontWeight.w500,
+                fontSize: 20),
+          ),
+        ),
+      ),
+      onTap: () {
+        Navigator.pushNamed(context, RouteName.pageIndex);
+      },
+    );
+  }
+
+  Widget _buildButtonSignUpLogistic() {
+    return GestureDetector(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        height: 50,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6),
+          gradient: const LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [
+                Color.fromRGBO(67, 110, 220, 1),
+                Color.fromRGBO(44, 54, 145, 1),
+              ]),
+        ),
+        child: const Center(
+          child: Text(
+            NameAccount.logistic,
+            style: TextStyle(
+                color: Color(0XFFFFFFFF),
+                fontWeight: FontWeight.w500,
+                fontSize: 20),
+          ),
+        ),
+      ),
+      onTap: () {
+        Navigator.pushNamed(context, RouteName.pageIndex);
+      },
+    );
+  }
+
+  Widget _buildButtonSignUpDriver() {
+    return GestureDetector(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 15),
+        height: 50,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6),
+          gradient: const LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [
+                Color.fromRGBO(67, 110, 220, 1),
+                Color.fromRGBO(44, 54, 145, 1),
+              ]),
+        ),
+        child: const Center(
+          child: Text(
+            NameAccount.drive,
+            style: TextStyle(
+                color: Color(0XFFFFFFFF),
+                fontWeight: FontWeight.w500,
+                fontSize: 20),
+          ),
+        ),
+      ),
+      onTap: () {
+        Navigator.pushNamed(context, RouteName.pageIndex);
+      },
+    );
+  }
+}

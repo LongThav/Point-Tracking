@@ -1,0 +1,231 @@
+import 'package:flutter/material.dart';
+import 'package:po_project/feartured1/utils/utils.dart';
+import 'package:po_project/feartured1/widget/login_button.dart';
+import 'package:provider/provider.dart';
+
+import '../../elements/colors.dart';
+import '../../elements/logo.dart';
+import '../../logics/auth_logic.dart';
+
+class SignIn extends StatefulWidget {
+  const SignIn({super.key});
+
+  @override
+  State<SignIn> createState() => _SignInState();
+}
+
+class _SignInState extends State<SignIn> {
+  bool passwordObscure = true;
+
+  TextEditingController emailCtrl = TextEditingController();
+  TextEditingController passwordCtrl = TextEditingController();
+
+  FocusNode emailFocusNode = FocusNode();
+  FocusNode passwordFocusNode = FocusNode();
+  @override
+  void dispose() {
+    emailCtrl.dispose();
+    passwordCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _buildBody,
+      bottomNavigationBar: _buildVersion,
+    );
+  }
+
+  get _buildBody {
+    return SafeArea(
+        child: SingleChildScrollView(
+      // physics: const NeverScrollableScrollPhysics(),
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 180,
+                color: AppColors.appBarColor,
+                child: Container(
+                  margin: const EdgeInsets.only(top: 25, left: 15),
+                  child: const Text(
+                    'Sing in',
+                    style: TextStyle(
+                        fontFamily: 'Poppins_Bold',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 20,
+                        color: AppColors.iconColor),
+                  ),
+                ),
+              ),
+              _blockBody(),
+            ],
+          ),
+        ],
+      ),
+    ));
+  }
+
+  Widget _blockBody() {
+    final authViewMode = Provider.of<AuthLogic>(context);
+    return Container(
+      margin: const EdgeInsets.only(top: 80),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(35), topRight: Radius.circular(35)),
+        ),
+        child: Column(
+          children: [
+            Container(
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.only(top: 25, left: 25),
+                child: const Text(
+                  'Welcome Back',
+                  style: TextStyle(
+                      color: AppColors.textWelcome,
+                      fontFamily: 'Poppins_Bold',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 24),
+                )),
+            Container(
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.only(top: 3, left: 27),
+                child: const Text(
+                  'Hello there, sign in to continue',
+                  style: TextStyle(
+                    color: AppColors.underWelcome,
+                    // fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                  ),
+                )
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            _logo(),
+            _frmUserName(),
+            _fromPassword(),
+            RoundButton(
+              title: 'Sign in',
+              loading: authViewMode.loading,
+              onPress: () {
+                if (emailCtrl.text.isEmpty) {
+                  Utils.toastMessage('Please enter email', context);
+                } else if (passwordCtrl.text.isEmpty) {
+                  Utils.toastMessage('Please enter password', context);
+                }else if(passwordCtrl.text.length < 6){
+                  Utils.toastMessage('Please enter 6 digit password', context);
+                }else {
+                  Map data = {
+                    'email': emailCtrl.text.toString(),
+                    'password': passwordCtrl.text.toString(),
+                  };
+                  authViewMode.loginApi(data, context);
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _logo() {
+    return Container(
+      alignment: Alignment.center,
+      margin: const EdgeInsets.symmetric(vertical: 47),
+      // margin: const EdgeInsets.only(top: 40),
+      width: 132.48,
+      height: 67.3,
+      decoration: BoxDecoration(
+        image: DecorationImage(image: AssetImage(Logo.logo), fit: BoxFit.fill),
+      ),
+    );
+  }
+
+  Widget _frmUserName() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      width: MediaQuery.of(context).size.width,
+      height: 44,
+      child: TextFormField(
+        controller: emailCtrl,
+        focusNode: emailFocusNode,
+        decoration: InputDecoration(
+            labelText: 'Username',
+            labelStyle: const TextStyle(
+              color: Color.fromRGBO(0, 0, 0, 0.87),
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+            contentPadding: const EdgeInsets.symmetric(vertical: 0),
+            suffixIcon: IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.email,
+                  color: Color(0XFF828282),
+                ))),
+      ),
+    );
+  }
+
+  Widget _fromPassword() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 18),
+      width: MediaQuery.of(context).size.width,
+      height: 44,
+      child: TextFormField(
+        obscureText: passwordObscure,
+        obscuringCharacter: '*',
+        focusNode: passwordFocusNode,
+        keyboardType: TextInputType.text,
+        controller: passwordCtrl,
+        decoration: InputDecoration(
+          hintStyle: const TextStyle(
+              fontWeight: FontWeight.w500, color: Color(0XFFCACACA)),
+          suffixIcon: IconButton(
+            icon: Icon(
+              passwordObscure ? Icons.lock : Icons.lock,
+              color: passwordObscure
+                  ? const Color(0XFFCACACA)
+                  : const Color(0XFF343434),
+            ),
+            onPressed: () {
+              setState(() {
+                passwordObscure = !passwordObscure;
+              });
+            },
+          ),
+          labelText: 'Password',
+          contentPadding: const EdgeInsets.symmetric(vertical: 0),
+          labelStyle: const TextStyle(
+            color: Color.fromRGBO(0, 0, 0, 0.87),
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+      ),
+    );
+  }
+
+  get _buildVersion {
+    return const Material(
+      color: Colors.white,
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 38),
+        child: SizedBox(
+            child: Text(
+          'Version 1.0',
+          textAlign: TextAlign.center,
+        )),
+      ),
+    );
+  }
+}
